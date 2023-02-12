@@ -3,10 +3,17 @@ import {component$} from "@builder.io/qwik";
 
 export const HelloMessage=component$(()=>{
 
+    const message="WELCOME TO THE QWIK COURSE"
+
     return (
-        <h1>
-            Welcome to this Qwik!
-        </h1>
+        <div class='container'>
+            {
+                <h1>
+                    {message}
+                </h1>
+            }
+        </div>
+
     )
 
 })
