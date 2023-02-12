@@ -1,5 +1,5 @@
-import {component$} from "@builder.io/qwik";
-
+import { component$ } from "@builder.io/qwik";
+import { HelloMessage } from "~/components/header-message/hello-message";
 
 //TUDO ISSO E A FUNCAO DE RENDERIZAÇÃO DO QWIK
 
@@ -8,18 +8,19 @@ import {component$} from "@builder.io/qwik";
 //COLOCAMOS DEFAULT PQ QUEREMOS QUE AO INCIIAR ESSA APP
 
 //ESSE COMPOENNT SEJA RENDERIZADO PRIMEIRO
-export default component$(()=>{
+export default component$(() => {
+  //ESSE TIPO DE EXTENSÃO O TSX COMPILA EM JXS E COMPILA EM ELEMENTO DOM
+  console.log("Initializated Hello World Component");
 
+  //LEMBRE SEMPRE DE COLCOAR O PARENTESES
 
-    //ESSE TIPO DE EXTENSÃO O TSX COMPILA EM JXS E COMPILA EM ELEMENTO DOM
-    console.log("Initializated Hello World Component");
-
-    //LEMBRE SEMPRE DE COLCOAR O PARENTESES
-    return(
-        <h1>
-            Welcome to this Qwik!
-        </h1>
-    )
-
-
-})
+   //COM O <> PERMITIMOS QUE SEJA RENDERIZADO SEM UMA DIV EXTRA
+   //PERMITINDO QUE USAMOS UM UNICO NO
+  return (
+    <>
+      <HelloMessage />
+      <HelloMessage />
+      <HelloMessage />
+    </>
+  );
+});
