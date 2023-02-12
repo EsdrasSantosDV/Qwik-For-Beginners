@@ -18,9 +18,9 @@ export default component$(() => {
    //PERMITINDO QUE USAMOS UM UNICO NO
   return (
     <>
-      <HelloMessage />
-      <HelloMessage />
-      <HelloMessage />
+      <HelloMessage message="Hello Word" courseVersion={1}/>
+      <HelloMessage message="Teste 2" />
+      <HelloMessage  message="Esdras Santos" courseVersion={3}/>
     </>
   );
 });
