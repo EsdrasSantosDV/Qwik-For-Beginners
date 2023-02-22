@@ -7,7 +7,7 @@ interface HelloMessageProps{
     //SE EU COLOCAR COMO OPCIONAL NA HORA DE FAZER O INPUT PROPERTY
     //ELA FICA OPCIONAL TAMBEM
     courseVersion?:number
-
+    showButton:boolean;
     //RECEBENDO UMA FUNCAO COMO PARAMETRO
     onShowMessage:PropFunction<(message:string)=>void> ;
 }
@@ -19,7 +19,7 @@ interface HelloMessageProps{
 //PODEMOS FAZER SEM GENERIC EXPLICITAMENTE
 export const HelloMessage=component$((props:HelloMessageProps)=>{
 
-    const{message,courseVersion,onShowMessage}=props;
+    const{message,courseVersion,onShowMessage,showButton}=props;
 
     return (
         <div class='container'>
@@ -28,7 +28,16 @@ export const HelloMessage=component$((props:HelloMessageProps)=>{
                     <h1>
                         {message} - {courseVersion}
                     </h1>
-                    <button onClick$={()=>onShowMessage(message)}>Show Message</button>
+                    {/*PRA FAZEMOS UM CONDICIONAL IGUAL O NG IF DO ANGULAR*/}
+                    {
+                        //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
+                        //DADO QUE A PARTE DO NÓ JSX E TRUE, SO PRECISAMOS DA PARTE DO SHOW
+                        //COMO TRUE
+                        showButton && (
+                           <button onClick$={()=>onShowMessage(message)}>Show Message</button>
+                        )
+                    }
+
                 </>
 
             }
