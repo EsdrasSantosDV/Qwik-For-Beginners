@@ -13,21 +13,23 @@ export default component$(() => {
   console.log("Initializated Hello World Component");
   //LEMBRE SEMPRE DE COLCOAR O PARENTESES
 
-  //FUNCTION NO CLICK, VOCE PRECISA TORNAR ELA SERIALIZAVEL
+  //FUNCTION NO CLICK, VOCE PRECISA TORNAR ELA SERIALIZAVEL, tornando ELA LAZZY LOADDING
    const sayHello=$(
        ()=>{
            alert("Hello World");
        }
    )
 
+   const onShowMessageClicked=$((message:string)=>alert(message))
+
   //COM O <> PERMITIMOS QUE SEJA RENDERIZADO SEM UMA DIV EXTRA
   //PERMITINDO QUE USAMOS UM UNICO NO
   return (
     <>
-      <HelloMessage message="Hello Word" courseVersion={1} />
-      <HelloMessage message="Teste 2" />
-      <HelloMessage message="Esdras Santos" courseVersion={3} />
-
+      <HelloMessage message="Hello Word" courseVersion={1} onShowMessage={onShowMessageClicked} />
+      <HelloMessage message="Teste 2"  onShowMessage={onShowMessageClicked}/>
+      <HelloMessage message="Esdras Santos" courseVersion={3} onShowMessage={onShowMessageClicked} />
+      {/*SEMPRE COLOCAR O $ PRA FALAR QUE É DO QWIK*/}
       <button onClick$={sayHello}>Say Hello</button>
     </>
   );

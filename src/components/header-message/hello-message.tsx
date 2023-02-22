@@ -1,4 +1,4 @@
-import {component$} from "@builder.io/qwik";
+import {component$, PropFunction} from "@builder.io/qwik";
 
 
 //UMA BOA PRATICA E COLOCAR UMA INTERFACE PROPS
@@ -7,6 +7,9 @@ interface HelloMessageProps{
     //SE EU COLOCAR COMO OPCIONAL NA HORA DE FAZER O INPUT PROPERTY
     //ELA FICA OPCIONAL TAMBEM
     courseVersion?:number
+
+    //RECEBENDO UMA FUNCAO COMO PARAMETRO
+    onShowMessage:PropFunction<(message:string)=>void> ;
 }
 
 //E COLOCAR UM GENERIC PRA ESSE COMPONENT
@@ -16,14 +19,18 @@ interface HelloMessageProps{
 //PODEMOS FAZER SEM GENERIC EXPLICITAMENTE
 export const HelloMessage=component$((props:HelloMessageProps)=>{
 
-    const{message,courseVersion}=props;
+    const{message,courseVersion,onShowMessage}=props;
 
     return (
         <div class='container'>
             {
-                <h1>
-                    {message} - {courseVersion}
-                </h1>
+                <>
+                    <h1>
+                        {message} - {courseVersion}
+                    </h1>
+                    <button onClick$={()=>onShowMessage(message)}>Show Message</button>
+                </>
+
             }
         </div>
 
