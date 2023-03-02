@@ -44,15 +44,18 @@ export const HelloMessage=component$((props:HelloMessageProps)=>{
         cssClasses.push('highlighted');
     }
 
-
+    const customStyles = (courseVersion == 2) ? {
+        color: 'red',
+        'text-decoration': 'underline'
+    } : {};
 
     return (
         <div class='container'>
             {
                 <>
 
-                    {/*TEMOS O UM ESTILO NG CLASS DO ANGULAR AQUI TAMBEM*/}
-                    <div class={cssClasses} >{message}: version {courseVersion}</div>
+                    {/*TEMOS TBM O NG STYLES, DADO UMA CONDIÇÃO ADICONAR, OU TIRAR UM ESTILO*/}
+                    <div class={cssClasses} style={customStyles}>{message}: version {courseVersion}</div>
 
                     {
                         //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
