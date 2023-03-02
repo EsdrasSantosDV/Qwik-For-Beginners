@@ -31,13 +31,28 @@ export const HelloMessage=component$((props:HelloMessageProps)=>{
 
     const{message,courseVersion,onShowMessage,showButton}=props;
 
+
+    const cssClasses = ['hello-message'];
+
+    //PODEMOS ADICIONAR ESTILOS CORRESPONDENTE A UMA DETERMINADA COONDICAO
+    if (courseVersion == 1) {
+        //PODEMOS ADCIIONAR UM . NA CASSE
+        //.hello-message.highlighted {
+        //     color: orange;
+        // }
+        //IGUAL ACIMA
+        cssClasses.push('highlighted');
+    }
+
+
+
     return (
         <div class='container'>
             {
                 <>
 
-                    {/*PRA FAZEMOS UM CONDICIONAL IGUAL O NG IF DO ANGULAR*/}
-                    <div class='hello-message'>    {message} - {courseVersion}</div>
+                    {/*TEMOS O UM ESTILO NG CLASS DO ANGULAR AQUI TAMBEM*/}
+                    <div class={cssClasses} >{message}: version {courseVersion}</div>
 
                     {
                         //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
