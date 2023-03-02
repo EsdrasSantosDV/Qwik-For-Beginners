@@ -1,5 +1,11 @@
-import {component$, PropFunction} from "@builder.io/qwik";
-
+import {component$, PropFunction, useStyles$, useStylesScoped$} from "@builder.io/qwik";
+import styles from './hello-message.css?inline'
+/*
+E vamos adicionar aqui um parâmetro que estamos passando para o runtime que está realizando o import,
+informando ao tempo de execução que isso deve ser importado como texto simples e associado aqui a esta importação de estilos
+variável.
+Agora podemos usar os estilos como texto e aplicá-los aqui ao componente usando o uso da API de estilos de uso
+ */
 
 //UMA BOA PRATICA E COLOCAR UMA INTERFACE PROPS
 interface HelloMessageProps{
@@ -19,16 +25,20 @@ interface HelloMessageProps{
 //PODEMOS FAZER SEM GENERIC EXPLICITAMENTE
 export const HelloMessage=component$((props:HelloMessageProps)=>{
 
+
+    //TEMOS O USE styles QUE NOS DA  UM ESCOPO GLOBAL, POR EXEMPLO, O ESTILO DESSE COMPONENTE, TODAS AS CLASSES DO CSS, TEM COMO UM ESCOPO GLOBAL
+    useStyles$(styles);
+
     const{message,courseVersion,onShowMessage,showButton}=props;
 
     return (
         <div class='container'>
             {
                 <>
-                    <h1>
-                        {message} - {courseVersion}
-                    </h1>
+
                     {/*PRA FAZEMOS UM CONDICIONAL IGUAL O NG IF DO ANGULAR*/}
+                    <div class='hello-message'>    {message} - {courseVersion}</div>
+
                     {
                         //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
                         //DADO QUE A PARTE DO NÓ JSX E TRUE, SO PRECISAMOS DA PARTE DO SHOW

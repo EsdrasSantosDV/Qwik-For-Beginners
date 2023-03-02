@@ -43,6 +43,9 @@ export default component$(() => {
             ))
         }
 
+
+      <div class='hello-message'>ESTILO SENDO AFETADO PELO ESTILO LA DO HELLO-MESSAGE</div>
+
       <button onClick$={sayHello}>Say Hello</button>
     </>
   );
