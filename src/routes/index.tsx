@@ -20,17 +20,29 @@ export default component$(() => {
        }
    )
 
+   const messages=[
+       "Hwllo",
+       "Welcome",
+       "Learn ANgular"
+   ]
+
+
    const onShowMessageClicked=$((message:string)=>alert(message))
 
   //COM O <> PERMITIMOS QUE SEJA RENDERIZADO SEM UMA DIV EXTRA
   //PERMITINDO QUE USAMOS UM UNICO NO
   return (
     <>
-      {/*  COMO ESTAMOS RENDERIZADO PELA PROP ENVIADA POR INPUT BIDDING, ENVIAMOS AQUI O BOOLEANO*/}
-      <HelloMessage showButton={true} message="Hello Word" courseVersion={1} onShowMessage={onShowMessageClicked} />
-      <HelloMessage showButton={true} message="Teste 2"  onShowMessage={onShowMessageClicked}/>
-      <HelloMessage showButton={true} message="Esdras Santos" courseVersion={3} onShowMessage={onShowMessageClicked} />
-      {/*SEMPRE COLOCAR O $ PRA FALAR QUE É DO QWIK*/}
+        {/*ISSSO AQUI SERA BASICMAENTE UM NG FOR*/}
+        {
+            // PRECISAMOS COLOCAR O INDEX, COMO NÃP TEMOS NADA PRA RAASTREAR NESSE ARRAY, PRECISAMOS CRIAR UM ATRIBUTO CHAVE
+            //AGORA SE TIVERMSO PRO EXEMPLO UMA ARRAY DE COURSES QUE TEM COMO CHAVE O ID, COLOCAMOS DIRETAMENTO NO KEY
+            //PRECISAMOS DE UMA CHAVE PERSONALIZADA, DADO QUE TEMOS VARIOS IRMASO JSONS DENTRO DA MESMA CHAVE, QUANDO NÃO TEMOS UMA CHAVE PERSOANLIDADE
+            messages.map((message,index)=>(
+                <HelloMessage key={index} message={message}  courseVersion={index} showButton={true} onShowMessage={onShowMessageClicked}></HelloMessage>
+            ))
+        }
+
       <button onClick$={sayHello}>Say Hello</button>
     </>
   );
