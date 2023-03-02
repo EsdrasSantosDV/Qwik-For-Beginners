@@ -26,8 +26,8 @@ interface HelloMessageProps{
 export const HelloMessage=component$((props:HelloMessageProps)=>{
 
 
-    //TEMOS O USE styles QUE NOS DA  UM ESCOPO GLOBAL, POR EXEMPLO, O ESTILO DESSE COMPONENTE, TODAS AS CLASSES DO CSS, TEM COMO UM ESCOPO GLOBAL
-    useStyles$(styles);
+    //TEMOS O USE STYLES SCOPED QUE DAMOS O CONTEXTO LOCAL PRA ESSE COMPOENNTE, PRA ELE NÃO SER AFETADO POR OUTROS, SOMENTE O ESCOPO QUE DEI A ELE
+    useStylesScoped$(styles);
 
     const{message,courseVersion,onShowMessage,showButton}=props;
 
