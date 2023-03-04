@@ -1,34 +1,43 @@
 import { component$, $, useStore } from "@builder.io/qwik";
-import { HelloMessage } from "~/components/header-message/hello-message";
 
 /*
-Quick nos permite renderizar novamente os modelos dos componentes que
- mudam apenas quando os dados que eles
-uso também mudou.
-Isso significa que, em uma aplicação rápida, vamos renderizar novamente apenas as partes da página que
-absolutamente necessário.
+O sistema de renderização reativa rápida possui recursos de renderização de granulação fina, portanto,
+ é possível atualizar
+apenas um elemento do template diretamente no DOM sem ter que chamar toda a renderização do componente função.
+Como você pode ver, há um mecanismo de otimização em jogo aqui.Qwik está tentando evitar ao máximo chamar a função de renderização completa.
+Se houver uma maneira de atualizar o DOM diretamente de maneira refinada, o Qwik fará isso e é
+vai evitar uma renderização completa do componente.
  */
 export default component$(() => {
   const messages = ["Hwllo", "Welcome", "Learn ANgular"];
 
-  //Uma loja é um espaço reservado onde os dados de um componente devem ser mantidos
-
   const store = useStore({
     index: 0,
   });
-  //Portanto, o objeto store funciona exatamente como um objeto JavaScript simples.
-  const obj={
-      index:0
-  }
-  //ESSE OBJETO TEM O MESMO COMPORTAMENTO DO OBJETO DA STORE
-  //PODEMOS ACESSAS SUAS PROPRIEDADES ATE NO TEMPLATE
+
+  /*
+  Você não precisa pensar como um desenvolvedor de aplicativos sobre como o
+   sistema de renderização funciona enquanto você está desenvolvendo seu aplicativo.
+    A única coisa que você deve lembrar é armazenar todos os
+    seus dados que o componente usa dentro do
+    store e quick saberão exatamente quando renderizar novamente seu componente.
+   */
+
+  //SE VOCE VER O LOG, O OBJETO E UM OBJETO PROXY
+    //E UM OBJETO PROXY, E ESXAMENTTE UM OBJETO MUTAVEL NORMAL
+    //COM A FUNCIONALIDADE ADICIONAL QUE QUALQUER UM  PODE ASSINAR ALTERAÇOES NAS PROPRIEDADES DESSE PROXY
+
+    //COM O ISSO O QWIK SABE EXATAMENTE O QUE PRECISA SER MUDADO NO COMPONENTE
+  console.log(store);
   return (
     <>
       <h1>Qwik Stores:Index da Store: {store.index}</h1>
 
       <h3>{messages[store.index]}</h3>
 
-      {/*Como você pode ver, você pode modificar as propriedades deste objeto de armazenamento.*/}
+      {/*  O QWIK NÃO VAI CHAMAR TODA A REDERIZAÇÃO DESSE COMPONENTE EM VARIOS CASOS*/}
+
+      {/*  O QWIK USA UM SISTEMA DE RENDEZIAÇÃO REATIVA SOB O CAPO BASEADO EM PROXIS*/}
       <button onClick$={() => store.index++}>Next message</button>
     </>
   );
