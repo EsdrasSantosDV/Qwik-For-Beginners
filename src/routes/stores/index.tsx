@@ -1,15 +1,19 @@
-import { component$, $, useStore } from "@builder.io/qwik";
-
-//ANTES DE EXPLICAR CONTEXT
-//VOU EXPLICAR O CONCEITO DE Property Drilling
-
-
+import {component$, $, useStore, createContext, useContextProvider, useContext} from "@builder.io/qwik";
+import {useContent} from "@builder.io/qwik-city";
 
 
 interface MessagesStore {
   messages: string[];
   index: number;
 }
+
+//VAMOS CRIAR NOSSO PRIMEIRO CONTEXTO
+
+//SEMPRE PRECISAMOS DEFINIR O TIPO DE DAOD QUE ESSE CONTEXTO VAI CONTER
+//COMO AQUI ESTMAOS CRIANDO UM CONTEXTO DO TIPO MESSAGES STORE
+export const MessagesContext=createContext<MessagesStore>("MESSAGES");
+
+//NÃO PRECISA SER NO MESMO ARQUIVO VIU, IDELA E SEPARAR ISSO AQUI
 
 export default component$(() => {
   const messages = ["Hwllo", "Welcome", "Learn ANgular"];
@@ -19,53 +23,59 @@ export default component$(() => {
     index: 0,
   });
 
+  //VAMOS SALVAR ESSA STORE NO CONTEXTO X
+    //E SPREENCHER OS DADOS NESSE CONTEXTO NA NOSSA RAIZ DA ARVORE, MAS PODERIA SER
+    //EM QUALQUER CANTO
+    useContextProvider(MessagesContext,store);
+
 
   return (
     <>
       <h1>Qwik Stores:Index da Store: {store.index}</h1>
-      {/*
-      BELEZA AQUI TEMOS UMA RELAÇÃO DE PAI PRA FILHO
-      MAS VAMOS PENSAR EM UMA APLICAÇÃO MUITO  MAIS COMPLEXA QUE JA VIMOS
-      ONDE VOCE TEM UM ARVORE DE COMPONENTES COM MUITOS NIVEIS DE PROFUNDIDADE
-      E QUE ESSSA APLICAÇÃO TENHA DADODS NORMALMENTE GLOBAIS, POR EXEMPLO
-      ESTADO DE APLICAÇÃO, UM EXEMPLO CLARO E A ROLE DO USUARIO
-      TODAS ESSA INFORMAÇÃO GLOBAL E UTILIZADA EM MUITOS LOCAIS DIFERENTES DA APLICAÇÃO
-      NUM CASO ONDE NÃO UTILIZAMOS O CONTEXTO, TEMOS UMA PERFURAÇÃO DE PROPRIEDADE
-      PQ PREICSMAOS PASSAR POR VARIOS NIVEIS DE PROFUNDIDADE PARA APENAS
-      UTILIZAR EM UM RAMO FOLHA, E NESSAS PERFURAÇOES DE NIVEIS
-      VARIOS NIVEIS NÃO ESTÃO USANDO ESSES DADOS
-      */}
-      <MessagePage store={store}></MessagePage>
+
+      {/*  NAO PRECISMAOS PASSAR POR REFRENCIA AS PROPRIEDADES MAIS*/}
+      <MessagePage ></MessagePage>
       <button onClick$={() => store.index++}>Next message</button>
     </>
   );
 });
 
-interface MessageProps {
-  store: MessagesStore;
-}
 
-export const MessagePage = component$((props: MessageProps) => {
-    //E UM CASO TIPICO DE PERFURAÇÃO DE PROPRIEDCADE, SE NÃO TIVESSE IMPLEMENTANDO ALGO RELAICONADO
-    //A STORE
-    /*
-    não estão usando os dados, eles estão apenas passando as propriedades
-    para baixo na árvore de componentes, para
-    que outro componente aninhado mais profundamente use os dados.
-     */
+export const MessagePage = component$(() => {
+
+
+
+
+
   return (
     <>
 
-        <MessageContainer store={props.store}></MessageContainer>
+        <MessageContainer ></MessageContainer>
     </>
   );
 });
 
 
-export const MessageContainer = component$((props:MessageProps)=>{
-    const { messages, index } = props.store;
+export const MessageContainer = component$(()=>{
 
-    //PODEMOS AOGRA CRIAR NOSSO PRIMEIRO CONTEXTO NO PROXIMO COMMIT
+    //PODEMOS PEGAR O CONTEXTO AQUI
+    const store=useContext(MessagesContext);
+
+    //PODE VER QUE TEMOS DOIS LEVELS DE SEPARAÇÃO
+    //MAS PODERIA FUNCIONAR PRA QUANTOS NVIEIS DE PRONFUDIDADE TIVERMOS
+
+
+
+    const {messages,index}=store;
+
+
+    //ISSO E UM CASO BEM SIMPLES DE USO DE CONTEXTOS
+    //MAS OS CONTEXTOS SÃO OTIMOS PARA COMPARTILHAR DADOS DE FORMA GHLOALB
+
+    //MAS PODEMOS USAR PRA CIRAR CONTEXTO LOCAIS APENAS PARA
+    //UMA PEQUENA SUBARVORE DE COMPONENTES QUE SERIA TIPO UMA COMPONENTE STORE DO ANGULAR
+
+
     return (
         <>
             <h3>{messages[index]}</h3>
