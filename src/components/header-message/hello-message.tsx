@@ -1,5 +1,10 @@
-import {component$, PropFunction, useStyles$, useStylesScoped$} from "@builder.io/qwik";
-import styles from './hello-message.css?inline'
+import {
+  component$,
+  PropFunction,
+  useStyles$,
+  useStylesScoped$,
+} from "@builder.io/qwik";
+import styles from "./hello-message.css?inline";
 /*
 E vamos adicionar aqui um parâmetro que estamos passando para o runtime que está realizando o import,
 informando ao tempo de execução que isso deve ser importado como texto simples e associado aqui a esta importação de estilos
@@ -8,14 +13,14 @@ Agora podemos usar os estilos como texto e aplicá-los aqui ao componente usando
  */
 
 //UMA BOA PRATICA E COLOCAR UMA INTERFACE PROPS
-interface HelloMessageProps{
-    message:string,
-    //SE EU COLOCAR COMO OPCIONAL NA HORA DE FAZER O INPUT PROPERTY
-    //ELA FICA OPCIONAL TAMBEM
-    courseVersion?:number
-    showButton:boolean;
-    //RECEBENDO UMA FUNCAO COMO PARAMETRO
-    onShowMessage:PropFunction<(message:string)=>void> ;
+interface HelloMessageProps {
+  message: string;
+  //SE EU COLOCAR COMO OPCIONAL NA HORA DE FAZER O INPUT PROPERTY
+  //ELA FICA OPCIONAL TAMBEM
+  courseVersion?: number;
+  showButton: boolean;
+  //RECEBENDO UMA FUNCAO COMO PARAMETRO
+  onShowMessage: PropFunction<(message: string) => void>;
 }
 
 //E COLOCAR UM GENERIC PRA ESSE COMPONENT
@@ -23,54 +28,69 @@ interface HelloMessageProps{
 //JA RESOLVE TUDO
 
 //PODEMOS FAZER SEM GENERIC EXPLICITAMENTE
-export const HelloMessage=component$((props:HelloMessageProps)=>{
 
+//SE  O COMPONENTE USA PROPS DE ENTRADA
+//COMO AQUI, A GENTE NÃO PRECISA ADICIONAR ADERECECOS DE COMPONENTES DENTRO DA LOJA PARA
+//RASTREA-LOS
+//OS OBJETOS DESSAS PROPRIEDADES TAMBEM SÃO PROXIES, E O QUIK VAI SE INSCREVER
+//NESSAS ALTERAÇOES NESSES PROXIES E ATUALIZARA O TEMPLATE AUTOMATICAMENTE
+//IGUAL A GENTE FAZ COM AS STORES
 
-    //TEMOS O USE STYLES SCOPED QUE DAMOS O CONTEXTO LOCAL PRA ESSE COMPOENNTE, PRA ELE NÃO SER AFETADO POR OUTROS, SOMENTE O ESCOPO QUE DEI A ELE
-    useStylesScoped$(styles);
+export const HelloMessage = component$((props: HelloMessageProps) => {
+  //PENSA NAS PROPS COMO UM ARMAZENAMENTO IMPLICITO QUE FUNCIONA DO MESMO JEITO
+  //QUE SE TIVESSE UTILLIZANDO A API DE USE STORE
+  //QWIK USA PROXIES PRA TODO O LADO
 
-    const{message,courseVersion,onShowMessage,showButton}=props;
+  //A GENTE TEM O MELHOR DOS DOIS MUNDOS
+  //TEMOS A SIMPLICIDADE DE TRANSFORMAR JAVASCRIPT COMO OBJETOS COMBINADOS
+  //COM RENDEREIZAÇÃO DE EXAMENTE O QUE NECESSITA SER ATUALIZADO
 
+  //TEMOS O USE STYLES SCOPED QUE DAMOS O CONTEXTO LOCAL PRA ESSE COMPOENNTE, PRA ELE NÃO SER AFETADO POR OUTROS, SOMENTE O ESCOPO QUE DEI A ELE
+  useStylesScoped$(styles);
 
-    const cssClasses = ['hello-message'];
+  const { message, courseVersion, onShowMessage, showButton } = props;
 
-    //PODEMOS ADICIONAR ESTILOS CORRESPONDENTE A UMA DETERMINADA COONDICAO
-    if (courseVersion == 1) {
-        //PODEMOS ADCIIONAR UM . NA CASSE
-        //.hello-message.highlighted {
-        //     color: orange;
-        // }
-        //IGUAL ACIMA
-        cssClasses.push('highlighted');
-    }
+  const cssClasses = ["hello-message"];
 
-    const customStyles = (courseVersion == 2) ? {
-        color: 'red',
-        'text-decoration': 'underline'
-    } : {};
+  //PODEMOS ADICIONAR ESTILOS CORRESPONDENTE A UMA DETERMINADA COONDICAO
+  if (courseVersion == 1) {
+    //PODEMOS ADCIIONAR UM . NA CASSE
+    //.hello-message.highlighted {
+    //     color: orange;
+    // }
+    //IGUAL ACIMA
+    cssClasses.push("highlighted");
+  }
 
-    return (
-        <div class='container'>
-            {
-                <>
+  const customStyles =
+    courseVersion == 2
+      ? {
+          color: "red",
+          "text-decoration": "underline",
+        }
+      : {};
 
-                    {/*TEMOS TBM O NG STYLES, DADO UMA CONDIÇÃO ADICONAR, OU TIRAR UM ESTILO*/}
-                    <div class={cssClasses} style={customStyles}>{message}: version {courseVersion}</div>
+  return (
+    <div class="container">
+      {
+        <>
+          {/*TEMOS TBM O NG STYLES, DADO UMA CONDIÇÃO ADICONAR, OU TIRAR UM ESTILO*/}
+          <div class={cssClasses} style={customStyles}>
+            {message}: version {courseVersion}
+          </div>
 
-                    {
-                        //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
-                        //DADO QUE A PARTE DO NÓ JSX E TRUE, SO PRECISAMOS DA PARTE DO SHOW
-                        //COMO TRUE
-                        showButton && (
-                           <button onClick$={()=>onShowMessage(message)}>Show Message</button>
-                        )
-                    }
-
-                </>
-
-            }
-        </div>
-
-    )
-
-})
+          {
+            //USAMOS UMA CONDICAO E SE ELA FOR ACEITA, RENDERIZAMOS NOSSO NÓ
+            //DADO QUE A PARTE DO NÓ JSX E TRUE, SO PRECISAMOS DA PARTE DO SHOW
+            //COMO TRUE
+            showButton && (
+              <button onClick$={() => onShowMessage(message)}>
+                Show Message
+              </button>
+            )
+          }
+        </>
+      }
+    </div>
+  );
+});
