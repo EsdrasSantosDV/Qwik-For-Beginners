@@ -17,11 +17,32 @@ export const MessagesContext=createContext<MessagesStore>("MESSAGES");
 
 export default component$(() => {
   const messages = ["Hwllo", "Welcome", "Learn ANgular"];
-
+  // ISSO AQUI E UMA HOOK FUNCTION PQ ELA TEM MEMORIA E TEM CONHECIMENTO
+    //DO CONTEXTO ONDE ESTA RECEBENDO ESSE CHAMADO
+    /*
+    Portanto, use store sabe quantas vezes foi chamado para esta instância
+    de componente e sabe para qual componente
+    instância está sendo chamado.
+     */
   const store = useStore({
     messages,
     index: 0,
   });
+  //ELE PODE ALTERAR SEU COMPORAMENTO DEPENDENDO SE E A PRIMEIRA VEZ QUE E
+    //CHAMADA OU POR VARIAS VEZES DEPOIS DISSO
+//ESSSA FUNCOES TEM MEMORIA, TEM ESTADO E TEM CONTEXTO DE ONDE FOI CHAMADA
+
+    //FUNCOES HOOKS TEM COMPORTAMENTOS DIFERENTES NO SERVIDOR E NO CLIENTE
+
+
+    //IMPORTANTE, NUNCA COLOCAR HOOKS FUNCTIONS DENTRO DE IFS VIU
+    /*
+    Certifique-se de usar uma função de gancho diretamente
+    dentro do corpo de sua função de renderização rápida de componente
+    e não adicione a chamada à função de gancho dentro dos blocos if.
+     */
+
+
 
   //VAMOS SALVAR ESSA STORE NO CONTEXTO X
     //E SPREENCHER OS DADOS NESSE CONTEXTO NA NOSSA RAIZ DA ARVORE, MAS PODERIA SER
@@ -42,9 +63,6 @@ export default component$(() => {
 
 
 export const MessagePage = component$(() => {
-
-
-
 
 
   return (
