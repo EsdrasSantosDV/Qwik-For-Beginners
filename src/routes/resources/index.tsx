@@ -11,28 +11,24 @@ interface CoursesStore {
   courses: Course[];
 }
 export default component$(() => {
-  const resource = useResource$<Course[]>(async () => {
+  const store = useStore({
+    reloadCounter: 0,
+  });
+  const resource = useResource$<Course[]>( (ctx) => {
+    //TEMOS UM CONTEXTO E PASSAMOS UMA UFNCAOI DE RATREAMENTO DE RECURSO PRO USAURI
+      //ENTÃO O QWIK SABE QUANDO ESSSA FUNCAO HTTP PRECISA SER CHAMADA NOVMAENTE
+    //ISSO AQUI VAI SER LA NO LADO DO CLIENTE AGORA
+    ctx.track(() => store.reloadCounter);
     return getCourses();
   });
 
   return (
     <>
-      {/*    O QWIK TEM UM COMPONENTE QUE AJUDA A GENTE DEMAIS COM O RESOURCES*/}
-      {/* APRIMEIRA PROPS E O PROPRIO RESOURCE A SER UTILZIADO  */}
-      {/*  TEMSO EM SEGUIDA UMA FUNCAO DE MANIPULAÇÃO DOS EVENTOS NÃO RESOLVIDOS QUE VAI SER ACIONADA*/}
-      {/*    SEMPRE QUE OS DADSO FOREM RESOLVIDOS COM SUCESSO*/}
-      {/*    O ONRESOLVED VAI SER CHAMADO QUANDO RECEBEMOS OS DADOS*/}
-
-      {/*TEMSO TAMBEM O CASO ENQUANTO A TELA NÃO CARREGOU AINDA COM OS DADOS*/}
-      {/*E QUANDO A REQUISÃO FALHOU*/}
+       <button onClick$={()=>store.reloadCounter++}>Reload Courses</button>
       <Resource
         value={resource}
-        onPending={()=>(
-            <h1>Loading</h1>
-        )}
-        onRejected={()=>(
-            <h1>Request Failed</h1>
-        )}
+        onPending={() => <h1>Loading</h1>}
+        onRejected={() => <h1>Request Failed</h1>}
         onResolved={(courses) => (
           <>
             {courses.map((course) => (
